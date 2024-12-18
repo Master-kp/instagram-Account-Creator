@@ -1,11 +1,14 @@
 # **Instagram-Account-Creator**
 
+This project is a branch of https://github.com/beephole/instagram-Account-Creator/
+I am currently trying to make that you don't have to verify the accounts manually by entering OTP.
+Going to use 1secmail
 
+!!Not complete!!
 
 THIS BOT IS FOR FUN AND EDUCATIONAL PURPOSES PLEASE BE NICE WITH IT!
 
-A bot that Creates Accounts for Instagram!
-It Automatically Authenticates the Proxy with Webdriver Selenium by Autofilling the Pop-up Login tab of Proxy !!
+
 
 ![image](https://user-images.githubusercontent.com/118709832/203001714-a90954a2-ad14-4fdf-ad9b-834f162dc6aa.png)
 
