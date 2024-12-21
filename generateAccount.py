@@ -1,17 +1,12 @@
-from selenium.webdriver.chrome.options import Options
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import TimeoutException
-from http_request_randomizer.requests.proxy.requestProxy import RequestProxy
-from webdriver_manager.chrome import ChromeDriverManager
-import time, random, requests, traceback
+import random, requests
 from time import sleep
-from lxml.html import fromstring
-from itertools import cycle
 from bs4 import BeautifulSoup
+
+import email_util as emu
 
 
 noOfAcc = int(input("No. of Accounts you want to Create: "))
@@ -20,7 +15,7 @@ print("Requesting Proxies:")
 
 
 def get_proxy_list():
-    noProxyies = int(
+    no_proxies = int(
         input("How many Working Proxys do you want to add to the List  ? : ")
     )
     proxyList = []
@@ -48,7 +43,7 @@ def get_proxy_list():
                 print("Proxy Works! Adding Proxy to proxylist.txt")
                 proxyList.append(ip + ":" + port)
                 count += 1
-                if count == noProxyies:
+                if count == no_proxies:
                     break
 
         except:
@@ -79,7 +74,7 @@ i = 0
 
 while noOfAcc > i:
 
-    firstName = random.choice(open("FirstnNamesList.txt").read().split())
+    firstName = random.choice(open("FirstNamesList.txt").read().split())
     lastName = random.choice(open("LastNamesList.txt").read().split())
     fullName = firstName + " " + lastName
     username = (
@@ -90,7 +85,7 @@ while noOfAcc > i:
         + str(random.randint(1, 1000))
     )
     password = open("Password.txt").readline()
-    email = random.choice(open("Emails.txt").read().split())
+    email = emu.OneSecMail()
     print("\n \n Connecting to Proxy: " + str(proxies) + "\n")
 
     chrome_options = webdriver.ChromeOptions()
@@ -103,50 +98,51 @@ while noOfAcc > i:
     print(rand_proxy())
 
     print("\n \n Instagram Webpage Opened \n \n")
+
     sleep(3)
 
     emailIn = browser.find_element(
-        By.NAME,
-        value="emailOrPhone",
+        By.XPATH,
+        value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div[2]/div/form/div[4]/div/label/input"
     )
     sleep(1)
     emailIn.send_keys(email)
     sleep(4)
 
-    print("\n \n Your randomize Email:" + email + "\n \n")
+    print(f"\n \n Your randomize Email:{email}\n \n")
 
     fullNameIn = browser.find_element(
-        By.NAME,
-        value="fullName",
+        By.XPATH,
+        value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div[2]/div/form/div[6]/div/label/input"
     )
     fullNameIn.send_keys(fullName)
 
     sleep(5)
     print("\n \n Your randomize Full Name is: " + fullName + "\n \n")
     usernameIn = browser.find_element(
-        By.NAME,
-        value="username",
+        By.XPATH,
+        value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div[2]/div/form/div[7]/div/label/input"
     )
     usernameIn.send_keys(username)
     print("\n \n Your randomize Username is: " + username + "\n \n")
     sleep(4)
 
     passwordIn = browser.find_element(
-        By.NAME,
-        value="password",
+        By.XPATH,
+        value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div[2]/div/form/div[5]/div/label/input"
     )
     passwordIn.send_keys(password)
-    print("\n \n Pa1ssword Entred is : " + password + "\n \n")
+    print("\n \n Password Entered is : " + password + "\n \n")
     sleep(2)
     try:
         signUp = browser.find_element(
             By.XPATH,
-            value="/html/body/div[1]/div/div/div/div[1]/div/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div[5]/div/button",
+            value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div[2]/div/form/div[8]/div/button"
         )
     except:
         signUp = browser.find_element(
             By.XPATH,
-            value="/html/body/div[1]/div/div/div/div[1]/div/div/div/div[1]/section/main/div/div/div[1]/div[2]/form/div[7]/div/button",
+            value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div[2]/div/form/div[8]/div/button"
         )
 
     signUp.click()
@@ -156,28 +152,51 @@ while noOfAcc > i:
     setMonth = random.randint(1, 12)
     setDay = random.randint(1, 27)
 
-    yearEl = Select(browser.find_element(By.XPATH, value='//*[@title="Year:"]'))
-    monthEl = Select(browser.find_element(By.XPATH, value='//*[@title="Month:"]'))
-    dayEl = Select(browser.find_element(By.XPATH, value='//*[@title="Day:"]'))
+    yearEl = Select(browser.find_element(By.XPATH, value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div/div/div[4]/div/div/span/span[3]/select"))
+    monthEl = Select(browser.find_element(By.XPATH, value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div/div/div[4]/div/div/span/span[1]/select"))
+    dayEl = Select(browser.find_element(By.XPATH, value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div/div/div[4]/div/div/span/span[2]/select"))
 
     yearEl.select_by_index(setYear)
-    print("\n Years Entred : " + str(setYear) + "\n")
+    print("\n Years Entered : " + str(setYear) + "\n")
     sleep(1)
     monthEl.select_by_index(setMonth)
-    print("\n Month Entred  : " + str(setMonth) + "\n")
+    print("\n Month Entered  : " + str(setMonth) + "\n")
     sleep(1)
     dayEl.select_by_index(setDay)
-    print("\n Date Entred : " + str(setDay) + " \n")
+    print("\n Date Entered : " + str(setDay) + " \n")
     sleep(5)
     nextButton = browser.find_element(
         By.XPATH,
-        value="/html/body/div[1]/div/div/div/div[1]/div/div/div/div[1]/section/main/div/div/div[1]/div/div[6]/button",
+        value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div/div/div[6]/button"
     )
     nextButton.click()
-    sleep(100)
+
+    sleep(30)
+
+    verification = emu.filter_numbers(email.get_inbox()[0].subject)
+
+    print(verification)
+
+    verification_box = browser.find_element(
+        By.XPATH,
+        value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div/div[2]/form/div/div[1]/input"
+    )
+
+    verification_box.send_keys(verification)
+
+    sleep(3)
+
+    done_button = browser.find_element(
+        By.XPATH,
+        value="/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/div/div/div[1]/div/div[2]/form/div/div[2]/div"
+    )
+
+    done_button.click()
+
 
     with open("username.txt", "w") as f_output:
         f_output.write(username)
+
     browser.close()
 
     i = i + 1
